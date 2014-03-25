@@ -32,8 +32,16 @@
 
       console.log(sun.position)
 
+      var directionalLight = new THREE.DirectionalLight(0x11ff11);
+      directionalLight.position.set(0, 0, 0);
+      scene.add(directionalLight);
+
+      earth.position.y = -5
+
       function render() {
         requestAnimationFrame(render);
+        earth.position.y += 0.1
+        earth.position.x = ((earth.position.y * earth.position.y) - 25) / earth.position.x
         sun.rotation.x += 0.1;
         sun.rotation.y += 0.03;
         renderer.render(scene, camera);
