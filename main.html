@@ -15,35 +15,35 @@
 
       var sun = new THREE.Mesh( 
         new THREE.SphereGeometry(1,20,20),
-        new THREE.MeshLambertMaterial( { 
+        new THREE.MeshPhongMaterial( { 
           color: 0xffcc00 
         }));
       scene.add( sun );
 
       var earth = new THREE.Mesh( 
         new THREE.SphereGeometry(.3,10,10),
-        new THREE.MeshBasicMaterial( { 
+        new THREE.MeshPhongMaterial( { 
           color: 0x0077ff 
         }));
       scene.add( earth );
 
       var mars = new THREE.Mesh( 
         new THREE.SphereGeometry(.25,10,10),
-        new THREE.MeshBasicMaterial( { 
+        new THREE.MeshPhongMaterial( { 
           color: 0xff0000 
         }));
       scene.add( mars );
 
       var saturn = new THREE.Mesh( 
-        new THREE.SphereGeometry(.50,10,10),
-        new THREE.MeshLambertMaterial( { 
+        new THREE.SphereGeometry(.50,20,20),
+        new THREE.MeshPhongMaterial( { 
           color: 0xffaa00 
         }));
       scene.add( saturn );
 
       var saturnRings = new THREE.Mesh( 
-        new THREE.CylinderGeometry(.8, .8, .03, 15, 15, false),
-        new THREE.MeshBasicMaterial( { 
+        new THREE.CylinderGeometry(.8, .8, .03, 25, 25, false),
+        new THREE.MeshPhongMaterial( { 
           color: 0xff7700 
         }));
       scene.add( saturnRings );
@@ -53,13 +53,32 @@
       camera.rotation.x = -.7
       console.log(camera.rotation)
 
-      var directionalLight = new THREE.DirectionalLight(0xffffff);
+      var directionalLight = new THREE.DirectionalLight(0x999999);
+      directionalLight.position.set(0, 0, 1.1);
+      scene.add(directionalLight);
+
+      var directionalLight = new THREE.DirectionalLight(0x999999);
+      directionalLight.position.set(0, 0, -1.1);
+      scene.add(directionalLight);
+
+      var directionalLight = new THREE.DirectionalLight(0x999999);
       directionalLight.position.set(0, 1.1, 0);
       scene.add(directionalLight);
 
-      var directionalLight = new THREE.DirectionalLight(0xffffff);
+      var directionalLight = new THREE.DirectionalLight(0x999999);
       directionalLight.position.set(0, -1.1, 0);
       scene.add(directionalLight);
+
+      var directionalLight = new THREE.DirectionalLight(0x999999);
+      directionalLight.position.set(1.1, 0, 0);
+      scene.add(directionalLight);
+
+      var directionalLight = new THREE.DirectionalLight(0x999999);
+      directionalLight.position.set(-1.1, 0, 0);
+      scene.add(directionalLight);
+
+      // var ambientLight = new THREE.AmbientLight(0x333333);
+      // scene.add(ambientLight);
 
       earth.position.z = -5
       earth.position.x = 0
