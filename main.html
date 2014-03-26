@@ -34,7 +34,10 @@
         }));
       scene.add( mars );
 
-      camera.position.z = 10;
+      camera.position.z = 15;
+      camera.position.y = 6;
+      camera.rotation.x = -.7
+      console.log(camera.rotation)
 
       var directionalLight = new THREE.DirectionalLight(0x11ff11);
       directionalLight.position.set(0, 0, 0);
@@ -46,21 +49,32 @@
       mars.position.z = 0
       mars.position.x = -8
       var hemisphereSwitcher = -1
+      var marsHemisphereSwitcher = -1
 
       function render() {
         requestAnimationFrame(render);
         if (Math.abs(earth.position.z) >= 5) {
           hemisphereSwitcher = - hemisphereSwitcher
         } else {}
-        earth.position.z += hemisphereSwitcher * 0.1
+        earth.position.z += hemisphereSwitcher * 0.03
         if (Math.abs(earth.position.z) === 5) {
           earth.position.x = 0
         } else {
           earth.position.x = hemisphereSwitcher * Math.sqrt(25 - (earth.position.z * earth.position.z))
         }
+
+        if (Math.abs(mars.position.z) >= 8) {
+          marsHemisphereSwitcher = - marsHemisphereSwitcher
+        } else {}
+        mars.position.z += marsHemisphereSwitcher * 0.03
+        if (Math.abs(mars.position.z) === 8) {
+          mars.position.x = 0
+        } else {
+          mars.position.x = marsHemisphereSwitcher * Math.sqrt(64 - (mars.position.z * mars.position.z))
+        }
+
         sun.rotation.x += 0.1;
         sun.rotation.y += 0.03;
-        console.log(earth.position)
         renderer.render(scene, camera);
       }
       render();
