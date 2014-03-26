@@ -21,16 +21,20 @@
       scene.add( sun );
 
       var earth = new THREE.Mesh( 
-        new THREE.SphereGeometry(.5,10,10),
+        new THREE.SphereGeometry(.3,10,10),
         new THREE.MeshBasicMaterial( { 
           color: 0x0077ff 
         }));
-      earth.position.x = -5
       scene.add( earth );
 
-      camera.position.z = 10;
+      var mars = new THREE.Mesh( 
+        new THREE.SphereGeometry(.25,10,10),
+        new THREE.MeshBasicMaterial( { 
+          color: 0xff0000 
+        }));
+      scene.add( mars );
 
-      console.log(sun.position)
+      camera.position.z = 10;
 
       var directionalLight = new THREE.DirectionalLight(0x11ff11);
       directionalLight.position.set(0, 0, 0);
@@ -39,17 +43,20 @@
       earth.position.z = -5
       earth.position.x = 0
 
+      mars.position.z = 0
+      mars.position.x = -8
+      var hemisphereSwitcher = -1
+
       function render() {
         requestAnimationFrame(render);
-        if (earth.position.z >= 5) {
-          earth.position.z = -5
+        if (Math.abs(earth.position.z) >= 5) {
+          hemisphereSwitcher = - hemisphereSwitcher
+        } else {}
+        earth.position.z += hemisphereSwitcher * 0.1
+        if (Math.abs(earth.position.z) === 5) {
+          earth.position.x = 0
         } else {
-          earth.position.z += 0.1
-        }
-        if (earth.position.x === 0) {
-          earth.position.x += .1
-        } else {
-          earth.position.x = Math.sqrt(25 - (earth.position.z * earth.position.z))
+          earth.position.x = hemisphereSwitcher * Math.sqrt(25 - (earth.position.z * earth.position.z))
         }
         sun.rotation.x += 0.1;
         sun.rotation.y += 0.03;
