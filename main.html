@@ -15,7 +15,7 @@
 
       var sun = new THREE.Mesh( 
         new THREE.SphereGeometry(1,20,20),
-        new THREE.MeshBasicMaterial( { 
+        new THREE.MeshLambertMaterial( { 
           color: 0xffcc00 
         }));
       scene.add( sun );
@@ -36,7 +36,7 @@
 
       var saturn = new THREE.Mesh( 
         new THREE.SphereGeometry(.50,10,10),
-        new THREE.MeshBasicMaterial( { 
+        new THREE.MeshLambertMaterial( { 
           color: 0xffaa00 
         }));
       scene.add( saturn );
@@ -53,8 +53,12 @@
       camera.rotation.x = -.7
       console.log(camera.rotation)
 
-      var directionalLight = new THREE.DirectionalLight(0x11ff11);
-      directionalLight.position.set(0, 0, 0);
+      var directionalLight = new THREE.DirectionalLight(0xffffff);
+      directionalLight.position.set(0, 1.1, 0);
+      scene.add(directionalLight);
+
+      var directionalLight = new THREE.DirectionalLight(0xffffff);
+      directionalLight.position.set(0, -1.1, 0);
       scene.add(directionalLight);
 
       earth.position.z = -5
