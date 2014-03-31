@@ -114,7 +114,7 @@
         if (Math.abs(earth.position.z) >= 5) {
           hemisphereSwitcher = - hemisphereSwitcher
         } else {}
-        earth.position.z += hemisphereSwitcher * (Math.abs(earth.position.x) / (Math.sqrt(Math.pow(earth.position.z, 2) + Math.pow(earth.position.x, 2)))) * 0.05
+        earth.position.z += hemisphereSwitcher * 0.05
         if (Math.abs(earth.position.z) === 5) {
           earth.position.x = 0
         } else {
@@ -126,7 +126,7 @@
         if (Math.abs(mars.position.z) >= 8) {
           marsHemisphereSwitcher = - marsHemisphereSwitcher
         } else {}
-        mars.position.z += marsHemisphereSwitcher * 0.5 / (Math.abs(mars.position.z) + .05)
+        mars.position.z += marsHemisphereSwitcher * 0.05
         if (Math.abs(mars.position.z) >= 8) {
           mars.position.x = 0
         } else {
