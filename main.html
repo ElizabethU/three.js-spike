@@ -14,7 +14,7 @@
       document.body.appendChild( renderer.domElement );
 
       var sun = new THREE.Mesh( 
-        new THREE.SphereGeometry(1,20,20),
+        new THREE.SphereGeometry(1,25,25),
         new THREE.MeshPhongMaterial( { 
           color: 0xffcc00 
         }));
@@ -51,7 +51,6 @@
       camera.position.z = 15;
       camera.position.y = 6;
       camera.rotation.x = -.7
-      console.log(camera.rotation)
 
       var directionalLight = new THREE.DirectionalLight(0x999999);
       directionalLight.position.set(0, 0, 1.1);
@@ -77,8 +76,8 @@
       directionalLight.position.set(-1.1, 0, 0);
       scene.add(directionalLight);
 
-      // var ambientLight = new THREE.AmbientLight(0x333333);
-      // scene.add(ambientLight);
+      var ambientLight = new THREE.AmbientLight(0x333333);
+      scene.add(ambientLight);
 
       earth.position.z = -5
       earth.position.x = 0
@@ -97,46 +96,61 @@
       var saturnHemisphereSwitcher = -1
       var saturnRingsHemisphereSwitcher = -1
 
+      function orbit(planet, distance, switcher) {
+        if (Math.abs(planet.position.z) >= distance) {
+          switcher = - switcher
+        } else {}
+        planet.position.z += switcher * 0.05
+        if (Math.abs(earth.position.z) === distance) {
+          planet.position.x = 0
+        } else {
+          planet.position.x = switcher * Math.sqrt(25 - (planet.position.z * planet.position.z))
+        }
+      }
+
       function render() {
         requestAnimationFrame(render);
+
         if (Math.abs(earth.position.z) >= 5) {
           hemisphereSwitcher = - hemisphereSwitcher
         } else {}
-        earth.position.z += hemisphereSwitcher * 0.03
+        earth.position.z += hemisphereSwitcher * (Math.abs(earth.position.x) / (Math.sqrt(Math.pow(earth.position.z, 2) + Math.pow(earth.position.x, 2)))) * 0.05
         if (Math.abs(earth.position.z) === 5) {
           earth.position.x = 0
         } else {
-          earth.position.x = hemisphereSwitcher * Math.sqrt(25 - (earth.position.z * earth.position.z))
+          earth.position.x = hemisphereSwitcher * Math.sqrt(25 - (Math.pow(earth.position.z, 2)))
         }
+
+        console.log(mars.position)
 
         if (Math.abs(mars.position.z) >= 8) {
           marsHemisphereSwitcher = - marsHemisphereSwitcher
         } else {}
-        mars.position.z += marsHemisphereSwitcher * 0.03
-        if (Math.abs(mars.position.z) === 8) {
+        mars.position.z += marsHemisphereSwitcher * 0.5 / (Math.abs(mars.position.z) + .05)
+        if (Math.abs(mars.position.z) >= 8) {
           mars.position.x = 0
         } else {
-          mars.position.x = marsHemisphereSwitcher * Math.sqrt(64 - (mars.position.z * mars.position.z))
+          mars.position.x = marsHemisphereSwitcher * Math.sqrt(64 - (Math.pow(mars.position.z, 2)))
         }
 
         if (Math.abs(saturn.position.z) >= 12) {
           saturnHemisphereSwitcher = - saturnHemisphereSwitcher
         } else {}
-        saturn.position.z += saturnHemisphereSwitcher * 0.03
+        saturn.position.z += saturnHemisphereSwitcher * 0.05
         if (Math.abs(saturn.position.z) === 12) {
           saturn.position.x = 0
         } else {
-          saturn.position.x = saturnHemisphereSwitcher * Math.sqrt(144 - (saturn.position.z * saturn.position.z))
+          saturn.position.x = saturnHemisphereSwitcher * Math.sqrt(144 - (Math.pow(saturn.position.z, 2)))
         }
 
         if (Math.abs(saturnRings.position.z) >= 12) {
           saturnRingsHemisphereSwitcher = - saturnRingsHemisphereSwitcher
         } else {}
-        saturnRings.position.z += saturnHemisphereSwitcher * 0.03
+        saturnRings.position.z += saturnHemisphereSwitcher * 0.05
         if (Math.abs(saturnRings.position.z) === 12) {
           saturnRings.position.x = 0
         } else {
-          saturnRings.position.x = saturnRingsHemisphereSwitcher * Math.sqrt(144 - (saturnRings.position.z * saturnRings.position.z))
+          saturnRings.position.x = saturnRingsHemisphereSwitcher * Math.sqrt(144 - (Math.pow(saturnRings.position.z, 2)))
         }
 
         sun.rotation.x += 0.1;
