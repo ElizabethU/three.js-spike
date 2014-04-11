@@ -6,6 +6,26 @@
   <body>
     <script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
     <script>
+      function Planet(d3obj, radius) {
+        this.d3obj = d3obj;
+        this.radius = radius;
+        this.switcher = -1;
+      }
+
+      Planet.prototype.orbit = function () {
+        if (Math.abs(this.d3obj.position.z) >= 5) {
+          this.switcher = - this.switcher
+        } else {}
+
+        this.d3obj.position.z += this.switcher * 0.05
+
+        if (Math.abs(this.d3obj.position.z) === this.radius) {
+          this.d3obj.position.x = 0
+        } else {
+          this.d3obj.position.x = this.switcher * Math.sqrt(Math.pow(this.radius, 2) - (Math.pow(this.d3obj.position.z, 2)))
+        }
+      }
+
       var scene = new THREE.Scene();
       var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
@@ -15,7 +35,7 @@
 
       var sun = new THREE.Mesh( 
         new THREE.SphereGeometry(1,25,25),
-        new THREE.MeshPhongMaterial( { 
+        new THREE.MeshBasicMaterial( { 
           color: 0xffcc00 
         }));
       scene.add( sun );
@@ -96,62 +116,74 @@
       var saturnHemisphereSwitcher = -1
       var saturnRingsHemisphereSwitcher = -1
 
+      // var system = [
+      //   new Planet(earth, 5),
+      //   new Planet(mars, 8),
+      //   new Planet(saturn, 12),
+      // ];
+
       function orbit(planet, distance, switcher) {
         if (Math.abs(planet.position.z) >= distance) {
           switcher = - switcher
+          console.log(switcher)
         } else {}
         planet.position.z += switcher * 0.05
         if (Math.abs(earth.position.z) === distance) {
           planet.position.x = 0
         } else {
-          planet.position.x = switcher * Math.sqrt(25 - (planet.position.z * planet.position.z))
+          planet.position.x = switcher * Math.sqrt(Math.pow(distance, 2) - (Math.pow(planet.position.z, 2)))
         }
+        return switcher
       }
 
       function render() {
         requestAnimationFrame(render);
 
-        if (Math.abs(earth.position.z) >= 5) {
-          hemisphereSwitcher = - hemisphereSwitcher
-        } else {}
-        earth.position.z += hemisphereSwitcher * 0.05
-        if (Math.abs(earth.position.z) === 5) {
-          earth.position.x = 0
-        } else {
-          earth.position.x = hemisphereSwitcher * Math.sqrt(25 - (Math.pow(earth.position.z, 2)))
-        }
+        // hemisphereSwitcher = orbit(earth, 5, hemisphereSwitcher)
+        // if (Math.abs(earth.position.z) >= 5) {
+        //   hemisphereSwitcher = - hemisphereSwitcher
+        // } else {}
+        // earth.position.z += hemisphereSwitcher * 0.05
+        // if (Math.abs(earth.position.z) === 5) {
+        //   earth.position.x = 0
+        // } else {
+        //   earth.position.x = hemisphereSwitcher * Math.sqrt(25 - (Math.pow(earth.position.z, 2)))
+        // }
 
-        console.log(mars.position)
+        system.forEach(function(element) {
+          element.orbit();
+        });
 
-        if (Math.abs(mars.position.z) >= 8) {
-          marsHemisphereSwitcher = - marsHemisphereSwitcher
-        } else {}
-        mars.position.z += marsHemisphereSwitcher * 0.05
-        if (Math.abs(mars.position.z) >= 8) {
-          mars.position.x = 0
-        } else {
-          mars.position.x = marsHemisphereSwitcher * Math.sqrt(64 - (Math.pow(mars.position.z, 2)))
-        }
 
-        if (Math.abs(saturn.position.z) >= 12) {
-          saturnHemisphereSwitcher = - saturnHemisphereSwitcher
-        } else {}
-        saturn.position.z += saturnHemisphereSwitcher * 0.05
-        if (Math.abs(saturn.position.z) === 12) {
-          saturn.position.x = 0
-        } else {
-          saturn.position.x = saturnHemisphereSwitcher * Math.sqrt(144 - (Math.pow(saturn.position.z, 2)))
-        }
+        // if (Math.abs(mars.position.z) >= 8) {
+        //   marsHemisphereSwitcher = - marsHemisphereSwitcher
+        // } else {}
+        // mars.position.z += marsHemisphereSwitcher * 0.05
+        // if (Math.abs(mars.position.z) >= 8) {
+        //   mars.position.x = 0
+        // } else {
+        //   mars.position.x = marsHemisphereSwitcher * Math.sqrt(64 - (Math.pow(mars.position.z, 2)))
+        // }
 
-        if (Math.abs(saturnRings.position.z) >= 12) {
-          saturnRingsHemisphereSwitcher = - saturnRingsHemisphereSwitcher
-        } else {}
-        saturnRings.position.z += saturnHemisphereSwitcher * 0.05
-        if (Math.abs(saturnRings.position.z) === 12) {
-          saturnRings.position.x = 0
-        } else {
-          saturnRings.position.x = saturnRingsHemisphereSwitcher * Math.sqrt(144 - (Math.pow(saturnRings.position.z, 2)))
-        }
+        // if (Math.abs(saturn.position.z) >= 12) {
+        //   saturnHemisphereSwitcher = - saturnHemisphereSwitcher
+        // } else {}
+        // saturn.position.z += saturnHemisphereSwitcher * 0.05
+        // if (Math.abs(saturn.position.z) === 12) {
+        //   saturn.position.x = 0
+        // } else {
+        //   saturn.position.x = saturnHemisphereSwitcher * Math.sqrt(144 - (Math.pow(saturn.position.z, 2)))
+        // }
+
+        // if (Math.abs(saturnRings.position.z) >= 12) {
+        //   saturnRingsHemisphereSwitcher = - saturnRingsHemisphereSwitcher
+        // } else {}
+        // saturnRings.position.z += saturnHemisphereSwitcher * 0.05
+        // if (Math.abs(saturnRings.position.z) === 12) {
+        //   saturnRings.position.x = 0
+        // } else {
+        //   saturnRings.position.x = saturnRingsHemisphereSwitcher * Math.sqrt(144 - (Math.pow(saturnRings.position.z, 2)))
+        // }
 
         sun.rotation.x += 0.1;
         sun.rotation.y += 0.03;
